@@ -4,39 +4,72 @@ const arrayGame = ["rock", "paper", "scissors"];
 
 let computerPoint = 0;
 let playerPoint = 0;
+let playerChoice = '';
+let roundPlayed = 0;
 
 function playRound(computerChoice, playerChoice) {
+
    if (computerChoice === playerChoice) {
     console.log("\nIt's tie!");
    } 
-
    else if ((computerChoice === "rock " && playerChoice === "scissors") || (computerChoice === "paper" && playerChoice == "rock") || (computerChoice == "scissors" && playerChoice == "paper")){
     computerPoint += 1;
-    console.log(`\nComputer won!, ${computerChoice.toUpperCase()} beats ${playerChoice.toUpperCase()}`);
    }
    else{
     playerPoint += 1
-    console.log(`\nPlayer won!, ${playerChoice.toUpperCase()} beats ${computerChoice.toUpperCase()}`);
    }
-   console.log(`Points: Player-${playerPoint} Computer-${computerPoint}`);
+   
+   const pPoint = document.querySelector('.player');
+   pPoint.textContent = playerPoint;
+
+   const cPoint = document.querySelector('.computer');
+   cPoint.textContent = computerPoint;
 }
 
-function game() {
-    for (let i=0; i<5; i++){
+
+
+
+const buttons = document.querySelectorAll('.btn');
+
+buttons.forEach((button) => {
+    button.addEventListener('click', ()=> {
+        roundPlayed += 1
         let computerChoice = arrayGame[Math.floor(Math.random() * arrayGame.length )];
-        let playerChoice = prompt("Pick your choice: ").toLowerCase();
+        const cChoice = document.querySelector('#cc');
+        cChoice.textContent = computerChoice;
+        id = button.id
+        switch(id){
+            case 'btn1':
+                playerChoice = 'rock';
+                break;
+            case 'btn2':
+                playerChoice = 'paper';
+                break;
+            case 'btn3':
+                playerChoice = 'scissors';
+                break;
+        }
+        
         playRound(computerChoice, playerChoice)
-    }
+        
+        if (roundPlayed == 5){
+            const winner = document.querySelector('.winner');
+            if (computerPoint > playerPoint){
+                msg = (`Computer won with ${computerPoint} points.`);
+                winner.textContent = msg
+            }
+            else if (playerPoint > computerPoint) {
+                msg = (`Player won with ${playerPoint} points.`);
+                winner.textContent = msg
+            }
+            else{
+                msg = (`It's a draw. Player and Computer has ${playerPoint} and ${computerPoint} respectively.`);
+                winner.textContent = msg
+            }
+        }
 
-    if (computerPoint > playerPoint){
-        console.log(`Computer won with ${computerPoint} points.`);
-    }
-    else if (playerPoint > computerPoint) {
-        console.log(`Player won with ${playerPoint} points.`);
-    }
-    else{
-        console.log(`It's a draw. Player and Computer has ${playerPoint} and ${computerPoint} respectively.`)
-    }
-}
+    })
+}) 
 
-game()
+        
+
